@@ -9,7 +9,7 @@ RUN_ONCE="${RUN_ONCE:-false}"
 # Set default push interval to 10 minutes
 PUSH_INTERVAL="${PUSH_INTERVAL:-60}"
 
-STATE="ok"
+STATE="up"
 MSG="Online"
 
 # The container will run this loop infinitely, unless it is in testing mode.
