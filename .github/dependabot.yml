@@ -6,7 +6,12 @@
 version: 2
 updates:
   - package-ecosystem: "docker"
-    directory: "/"
+    directory: "/servicehealth"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/undervoltage"
     schedule:
       interval: "daily"
 
