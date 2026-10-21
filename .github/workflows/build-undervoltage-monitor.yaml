@@ -4,6 +4,8 @@
 name: Build and Push Undervoltage Monitor
 
 on:
+  schedule:
+    - cron: '0 1 * * *' # Runs nightly at 01:00 UTC (1 hour after pi-prod-base)
   workflow_dispatch: # Manual trigger via GitHub Actions
 
 jobs:
@@ -52,6 +54,23 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build local image for scanning
+        uses: docker/build-push-action@v7
+        with:
+          context: ./servicehealth
+          platforms: linux/arm64
+          load: true
+          tags: 'pi-push-monitor-base:local-scan-servicehealth'
+          no-cache: true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@6abccf398f78b4c337599c0656f933d91efb91a0
+        with:
+          image-ref: 'pi-push-monitor-base:local-scan-servicehealth'
+          format: 'table'
+          exit-code: '1' # Block pushes on critical or high vulnerability detection.
+          severity: 'CRITICAL,HIGH'
 
       - name: Build and push
         uses: docker/build-push-action@v7
