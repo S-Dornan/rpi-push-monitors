@@ -1,10 +1,11 @@
 # Copyright (C) 2026 Sam Dornan
 # This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-
 name: Build and Push Pi Monitor
 
 on:
+  schedule:
+    - cron: '0 1 * * *' # Runs nightly at 01:00 UTC (1 hour after pi-prod-base)
   workflow_dispatch: # Manual trigger via GitHub Actions
 
 jobs:
@@ -23,13 +24,13 @@ jobs:
           curl -Lo $RUNNER_TEMP/sbom-tool https://github.com/microsoft/sbom-tool/releases/latest/download/sbom-tool-linux-x64
           chmod +x $RUNNER_TEMP/sbom-tool
           
-          # Adjusted paths to scan the root directory instead of ./brownout
-          $RUNNER_TEMP/sbom-tool generate -b ./servicehealth -bc ./servicehealth -pn PiProdBase -pv 1.0.0 -ps S-Dornan -nsb https://github.com/${{ github.repository }}/sbom/pi-push-monitor-base -V Verbose
+          # Adjusted paths to scan the servicehealth directory
+          $RUNNER_TEMP/sbom-tool generate -b ./servicehealth -bc ./servicehealth -pn ServiceHealthMonitor -pv 1.0.0 -ps S-Dornan -nsb https://github.com/${{ github.repository }}/sbom/pi-push-monitor-servicehealth -V Verbose
 
       - name: Upload SBOM Artifact
         uses: actions/upload-artifact@v7
         with:
-          name: source-sbom-manifest
+          name: servicehealth-source-sbom-manifest
           path: ./servicehealth/_manifest
         
       - name: Extract Docker metadata
@@ -53,6 +54,23 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build local image for scanning
+        uses: docker/build-push-action@v7
+        with:
+          context: ./servicehealth
+          platforms: linux/arm64
+          load: true
+          tags: 'pi-push-monitor-base:local-scan-servicehealth'
+          no-cache: true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@6abccf398f78b4c337599c0656f933d91efb91a0
+        with:
+          image-ref: 'pi-push-monitor-base:local-scan-servicehealth'
+          format: 'table'
+          exit-code: '1' # Block pushes on critical or high vulnerability detection.
+          severity: 'CRITICAL,HIGH'
 
       - name: Build and push
         uses: docker/build-push-action@v7
