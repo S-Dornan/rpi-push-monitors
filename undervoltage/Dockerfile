@@ -5,7 +5,7 @@
 # STAGE 1: TESTING
 # ==========================================
 # We use Debian 13 here to maintain ecosystem consistency with the Distroless target
-FROM debian:13 AS tester
+FROM debian:13@sha256:4c25275446ca371766b8b093c696782eabce06263fccacb8d5d813b3dc44b308 AS tester
 
 RUN apt-get update && \
     apt-get install -y bats && \
