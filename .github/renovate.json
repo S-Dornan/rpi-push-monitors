@@ -4,6 +4,7 @@
     "config:best-practices"
   ],
   "minimumReleaseAge": "14 days",
+  "platformAutomerge": true,
   "packageRules": [
     {
       "description": "Group all GitHub Actions into a single PR once they pass the 14-day quarantine",
@@ -14,6 +15,19 @@
       "description": "Require manual approval on the Dependency Dashboard for major version bumps",
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Auto-merge minor, patch, pin, and digest updates after passing the quarantine",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "Exempt internal nightly images from the 14-day quarantine so they don't get stuck",
+      "matchPackageNames": [
+        "ghcr.io/s-dornan/pi-prod-base",
+        "ghcr.io/s-dornan/pi-push-monitor-base"
+      ],
+      "minimumReleaseAge": "0 days"
     }
   ]
 }
