@@ -20,6 +20,7 @@
       "description": "Auto-merge minor, patch, pin, and digest updates after passing the quarantine",
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+      "automergeType": "branch"
     },
     {
       "description": "Exempt internal nightly images from the 14-day quarantine so they don't get stuck",
