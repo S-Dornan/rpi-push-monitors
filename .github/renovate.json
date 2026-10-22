@@ -19,7 +19,7 @@
     {
       "description": "Auto-merge minor, patch, pin, and digest updates after passing the quarantine",
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "automerge": true
+      "automerge": true,
       "automergeType": "branch"
     },
     {
