@@ -4,7 +4,7 @@
 # docker-compose.yml
 services:
   uptime-kuma-general:
-    image: ghcr.io/s-dornan/pi-push-monitor-base:latest@sha256:963d6ba6d4cdc61f42e01d18112e6a4fc659f21b594e0b992efc1a2141219a5b
+    image: ghcr.io/s-dornan/pi-push-monitor-base:latest@sha256:96e8a2a7d80114773ef91bca43f555ea262b1ee891039b353ea886c459f327bd
     container_name: uptime-kuma-online
     restart: always
     devices:
