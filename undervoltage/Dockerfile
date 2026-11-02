@@ -24,7 +24,7 @@ RUN bats monitor.bats
 # ==========================================
 # We strictly pin to the mathematically verified Distroless base built in the pi-prod-base repo.
 # Hardware binaries (vcgencmd, curl) and SSL certs are pre-harvested in this layer.
-FROM ghcr.io/s-dornan/pi-prod-base@sha256:9411f0379038edaec197ded1d159a98b6b2f6dbe6c9ee2b22b74ad297d53c894
+FROM ghcr.io/s-dornan/pi-prod-base@sha256:02c9725d3ddae6dc4a5f8901b3747cd68d408396aaeb7cd7e2974d8a8ef19a5d
 
 # Add the BusyBox tools (like sleep, grep, awk) for the monitor script
 ENV PATH="/usr/bin:/bin:/busybox"
