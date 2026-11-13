@@ -4,7 +4,7 @@
 # docker-compose.yml
 services:
   uptime-kuma-undervoltage:
-    image: ghcr.io/s-dornan/pi-push-monitor-base:latest-undervoltage@sha256:e35134828d37e06d28b498b5a904de668f3d12b938effaf769b4ac126241d31e
+    image: ghcr.io/s-dornan/pi-push-monitor-base:latest-undervoltage@sha256:979f4d52141e93e9393898643c39123c68b24c7c07fb43eb653f9144bfeb7261
     container_name: uptime-kuma-undervoltage
     restart: always
     devices:
