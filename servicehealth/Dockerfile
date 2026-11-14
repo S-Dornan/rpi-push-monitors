@@ -24,7 +24,7 @@ RUN bats monitor.bats
 # ==========================================
 # We strictly pin to the mathematically verified Minimal base built in the pi-prod-base repo.
 # Hardware binaries (vcgencmd, curl) and SSL certs are pre-harvested in this layer.
-FROM ghcr.io/s-dornan/pi-prod-base@sha256:22b3742affb4b33402d802f83a9d336382746ab4652e8e0de63f494f1cb2f310
+FROM ghcr.io/s-dornan/pi-prod-base@sha256:e8a60fe3d093c51f418c9ac730973ba12ed41ed9cc927d7ee083ee93168505c7
 
 # Add the BusyBox tools (like sleep, grep, awk) for the monitor script
 ENV PATH="/usr/bin:/bin:/busybox"
